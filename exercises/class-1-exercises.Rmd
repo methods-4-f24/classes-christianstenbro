@@ -28,7 +28,150 @@ p_grid = seq(from = 0, to = 1, length.out=20)
 prior = rep(1, 20)
 
 # compute likelihood at each value in grid
-likelihood = dbinom(6, size = 9, prob = p_grid)
+likelihood = dbinom(3, size = 4, prob = p_grid)
+
+likelihood
+
+# compute product of likelihood and prior
+unstd.posterior = likelihood * prior
+
+# standardize the posterior so it sums to 1
+posterior = unstd.posterior / sum(unstd.posterior)
+
+# plot the distribution
+plot(p_grid, posterior, type = "b",
+     xlab = "probability of water", ylab = "posterior_probability")
+mtext("20 points")
+
+# we could tabulate this!
+table <- data.frame(round(p_grid, 3), round(likelihood, 3), round(posterior, 3))
+
+table
+
+```
+
+```{r}
+# Trying to do a Bayesian update:
+likelihood = dbinom(3, size = 5, prob = p_grid)
+
+posterior_1 <- posterior
+
+unstd.posterior = likelihood * posterior_1
+
+posterior = unstd.posterior / sum(unstd.posterior)
+
+# plot the distribution
+plot(p_grid, posterior, type = "b",
+     xlab = "probability of water", ylab = "posterior_probability")
+mtext("20 points")
+```
+
+
+## Exercises
+
+### Easy
+
+2E1. 
+
+```{r}
+
+# (2) p(rain|monday)
+
+# = the probability of rain given that it's monday
+
+```
+
+2E2.
+
+```{r}
+
+# (3)
+
+```
+
+2E3.
+
+```{r}
+
+# (1)
+
+```
+
+2E4.
+
+```{r}
+
+# It means that if you toss the globe for x amount of times, 70% of the time the index finger would land on a water spot.The probability doesn't refer to a concrete count but to a ratio of all trials. This ratio would (in theory?) remain constant as the trial number increases. We could also think of probabilities as an outcome distribution for x amount of trials. The mean of this distribution would in this case be centered around 0.7, with some standard deviation. 
+
+```
+
+### Medium
+
+2M1.
+
+```{r}
+# Grid Approximation
+
+# define grid
+p_grid = seq(from = 0, to = 1, length.out=20)
+
+plot(p_grid)
+
+# define prior
+prior = rep(1, 20)
+
+# compute likelihood at each value in grid
+likelihood = dbinom(3, size = 4, prob = p_grid)
+likelihood
+
+# compute product of likelihood and prior
+unstd.posterior = likelihood * prior
+
+# standardize the posterior so it sums to 1
+posterior = unstd.posterior / sum(unstd.posterior)
+
+# plot the distribution
+plot(p_grid, posterior, type = "b",
+     xlab = "probability of water", ylab = "posterior_probability")
+mtext("20 points")
+
+
+```
+
+
+
+2M2.
+
+
+```{r}
+dbinom(5, size = 7, prob = 0.7)
+```
+
+
+```{r}
+
+dbinom(3, size = 9, prob = 0.5)
+
+```
+
+```{r}
+
+# In the book, McElreath says that we can do much better than choosing a uniform prior for estimating the coverage of water. Is this what we are doing here? How does that impact our estimation?
+
+# That is indeed what we were doing, and the consequence of a uniform prior (a constant of 1), is that the posterior will literally be indentical with the likelihood, since posterior = likelihood * prior
+
+# We assume a new prior that is 0 when p < 0.5, and a positive constant (such as 1) when p > 0.5:
+
+# define grid
+p_grid = seq(from = 0, to = 1, length.out=20)
+
+# define prior
+prior = c(rep(0, 10), rep(1, 10))
+
+data.frame(p_grid, prior)
+
+# compute likelihood at each value in grid
+likelihood = dbinom(3, size = 4, prob = p_grid)
 
 # compute product of likelihood and prior
 unstd.posterior = likelihood * prior
@@ -43,65 +186,13 @@ mtext("20 points")
 
 ```
 
-## Exercises
-
-### Easy
-
-2E1. 
-
-```{r}
-
-# Your answer here.
-
-```
-
-2E2.
-
-```{r}
-
-# Your answer here.
-
-```
-
-2E3.
-
-```{r}
-
-# Your answer here.
-
-```
-
-2E4.
-
-```{r}
-
-# Discuss in pairs/groups. Ask me for a hint if you feel like it.
-
-```
-
-### Medium
-
-2M1.
-
-```{r}
-
-# Write your code here.
-
-```
-
-2M2.
-
-```{r}
-
-# In the book, McElreath says that we can do much better than choosing a uniform prior for estimating the coverage of water. Is this what we are doing here? How does that impact our estimation?
-
-```
-
 2M3.
 
 ```{r}
 
 # Use the Bayes formula!
+
+
 
 ```
 
